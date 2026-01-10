@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>متجر الاحتراف - المنتجات</title>
+    <meta name="description" content="تصفح جميع منتجاتنا المميزة. إلكترونيات، أزياء، عطور والمزيد.">
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <!-- CSS -->
+    <link rel="stylesheet" href="assets/css/style.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* Specific Styles for Products Search */
+        .products-filter-section {
+            background-color: var(--white);
+            padding: 30px 0;
+            margin-bottom: 40px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+        }
+
+        .search-container {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 25px;
+        }
+
+        .search-box-wrapper {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+        }
+
+        .search-box-wrapper input {
+            width: 100%;
+            padding: 15px 50px 15px 20px;
+            border: 2px solid #eee;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-family: inherit;
+            transition: all 0.3s ease;
+            outline: none;
+        }
+
+        .search-box-wrapper input:focus {
+            border-color: var(--accent-color);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+
+        .search-box-wrapper button {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: var(--primary-color);
+            color: #fff;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: none;
+            cursor: pointer;
+            transition: 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .search-box-wrapper button:hover {
+            background: var(--accent-color);
+        }
+
+        .categories-wrapper {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .filter-btn {
+            background: transparent;
+            border: 1px solid #ddd;
+            padding: 8px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: 0.3s;
+            font-family: inherit;
+            font-weight: 500;
+            color: var(--text-color);
+        }
+
+        .filter-btn:hover,
+        .filter-btn.active {
+            background: var(--primary-color);
+            color: #fff;
+            border-color: var(--primary-color);
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <nav>
+                <div class="logo">
+                    <a href="index.html">
+                        <img src="assets/images/logo.jpeg" alt="Abdelhakim Store Logo">
+                        <div class="logo-text">
+                            Abdelhakim
+                            <span>Boutique</span>
+                        </div>
+                    </a>
+                </div>
+                <ul class="nav-links">
+                    <li><a href="index.html">الرئيسية</a></li>
+                    <li><a href="products.html" class="active">المنتجات</a></li>
+                    <li><a href="about.html">من نحن</a></li>
+                    <li><a href="contact.html">اتصل بنا</a></li>
+                </ul>
+                <div class="mobile-menu-btn">
+                    <i class="fas fa-bars"></i>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Page Header -->
+    <section class="page-header"
+        style="position: relative; background: url('https://images.unsplash.com/photo-1567401893414-76b7b1e5a7a5?ixlib=rb-4.0.3&auto=format&fit=crop&w=1950&q=80') center/cover no-repeat; padding: 120px 0; text-align: center; color: #fff;">
+        <div
+            style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(135deg, rgba(26, 42, 58, 0.5) 0%, rgba(26, 42, 58, 0.3) 100%); z-index: 0;">
+        </div>
+        <div class="container" style="position: relative; z-index: 1;">
+            <h1
+                style="font-size: 3.5rem; margin-bottom: 20px; color: #fff; font-weight: 800; letter-spacing: -1px; text-shadow: 0 4px 15px rgba(0,0,0,0.3);">
+                جميع المنتجات</h1>
+            <p
+                style="opacity: 1; font-size: 1.3rem; max-width: 600px; margin: 0 auto; line-height: 1.6; text-shadow: 0 2px 10px rgba(0,0,0,0.3); font-weight: 500;">
+                تصفح مجموعتنا الحصرية من المنتجات المختارة بعناية لتناسب ذوقك الرفيع</p>
+        </div>
+    </section>
+
+    <!-- Filter & Search Section -->
+    <section class="products-filter-section">
+        <div class="container">
+            <div class="search-container">
+                <div class="search-box-wrapper">
+                    <input type="text" id="search-input" placeholder="ابحث عن اسم المنتج، التصنيف...">
+                    <button id="search-btn"><i class="fas fa-search"></i></button>
+                </div>
+            </div>
+
+            <div class="categories-wrapper">
+                <button class="filter-btn active" data-category="all">الكل</button>
+                <button class="filter-btn" data-category="مطبخ">مطبخ</button>
+                <button class="filter-btn" data-category="إلكترونيات">إلكترونيات</button>
+                <button class="filter-btn" data-category="عطور">عطور</button>
+                <button class="filter-btn" data-category="إكسسوارات">إكسسوارات</button>
+                <button class="filter-btn" data-category="حقائب">حقائب</button>
+                <button class="filter-btn" data-category="صحة">صحة</button>
+                <button class="filter-btn" data-category="عناية">عناية</button>
+                <button class="filter-btn" data-category="تجميل">تجميل</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Products Grid -->
+    <section class="products-section" style="padding-top: 0;">
+        <div class="container">
+            <div class="products-grid" id="products-container">
+                <!-- Products will be loaded via JS -->
+                <div style="grid-column: 1/-1; text-align: center; padding: 40px;">
+                    <i class="fas fa-spinner fa-spin fa-2x" style="color: var(--primary-color);"></i>
+                    <p style="margin-top: 10px;">جاري تحميل المنتجات...</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Cloudinary Gallery Section -->
+
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-col">
+                    <h3>Abdelhakim Store</h3>
+                    <p>وجهتك الأولى للتسوق الإلكتروني. نسعى دائماً لتقديم تجربة تسوق فريدة ومميزة لعملائنا الكرام.</p>
+                </div>
+                <div class="footer-col">
+                    <h3>روابط هامة</h3>
+                    <ul class="footer-links">
+                        <li><a href="products.html">المنتجات</a></li>
+                        <li><a href="about.html">من نحن</a></li>
+                        <li><a href="contact.html">اتصل بنا</a></li>
+                        <li><a href="#">سياسة الخصوصية</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h3>تواصل معنا</h3>
+                    <ul class="footer-links">
+                        <li><i class="fab fa-whatsapp"></i> +212 604-889578</li>
+                        <li><i class="fas fa-envelope"></i> Abdlhakimnajibi@gmail.com</li>
+                        <li><i class="fas fa-map-marker-alt"></i> Casablanca</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2026 Abdelhakim Store. جميع الحقوق محفوظة.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JS -->
+    <script src="assets/js/main.js"></script>
+    <script>
+        // Inline script to handle "Enter" key for search specifically if main.js is slow or generic
+        document.getElementById('search-input').addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') {
+                document.getElementById('search-btn').click();
+            }
+        });
+    </script>
+</body>
+
+</html>
