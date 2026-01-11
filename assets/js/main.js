@@ -38,7 +38,10 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // Global state
+// Global state
 let allProducts = [];
+let cart = JSON.parse(localStorage.getItem('cart')) || [];
+updateCartUI();
 
 // --- Cloudinary Integration ---
 
@@ -181,6 +184,7 @@ function renderProducts(products) {
 }
 
 function createProductCard(product) {
+    const safeProduct = JSON.stringify(product).replace(/'/g, "&apos;").replace(/"/g, "&quot;");
     return `
         <div class="product-card">
             <div class="product-image">
@@ -189,8 +193,11 @@ function createProductCard(product) {
             <div class="product-details">
                 <div class="product-category">${product.category}</div>
                 <h3 class="product-title">${product.name}</h3>
-                <div class="product-actions">
-                    <a href="product-details.html?id=${product.id}" class="details-link">تفاصيل المنتج <i class="fas fa-arrow-left"></i></a>
+                <div class="product-actions" style="justify-content: space-between; align-items: center; width: 100%;">
+                    <button class="btn" onclick='addToCart(${safeProduct})' style="padding: 5px 15px; font-size: 0.8rem;">
+                        <i class="fas fa-cart-plus"></i> أضف
+                    </button>
+                    <a href="product-details.html?id=${product.id}" class="details-link" style="font-size: 0.85rem;">التفاصيل <i class="fas fa-arrow-left"></i></a>
                 </div>
             </div>
         </div>
@@ -290,9 +297,14 @@ async function loadProductDetails() {
                     
                     <div class="action-area" style="flex-direction: column;">
                         <!-- Order Button Toggler -->
-                        <button onclick="document.getElementById('order-form-container').style.display = 'block'; this.style.display='none'" class="whatsapp-btn">
-                            <i class="fas fa-shopping-cart"></i> اضغط للطلب
-                        </button>
+                         <div style="display: flex; gap: 10px; margin-bottom: 20px;">
+                            <button onclick='addToCart(${JSON.stringify(product).replace(/'/g, "&apos;").replace(/"/g, "&quot;")})' class="btn" style="flex: 1;">
+                                <i class="fas fa-cart-plus"></i> أضف للسلة
+                            </button>
+                            <button onclick="document.getElementById('order-form-container').style.display = 'block'; this.style.display='none'" class="whatsapp-btn" style="flex: 1;">
+                                <i class="fas fa-bolt"></i> طلب سريع
+                            </button>
+                         </div>
 
                         <!-- Order Form -->
                         <div id="order-form-container" style="display: none;">
@@ -369,3 +381,131 @@ function showError(msg) {
         `;
     }
 }
+
+// --- Cart Logic ---
+
+function toggleCart() {
+    const sidebar = document.getElementById('cart-sidebar');
+    const overlay = document.getElementById('cart-overlay');
+    if (sidebar && overlay) {
+        sidebar.classList.toggle('active');
+        overlay.classList.toggle('active');
+    }
+}
+
+function addToCart(product) {
+    // Check if item exists
+    const existing = cart.find(item => item.id === product.id);
+    if (existing) {
+        existing.qty++;
+    } else {
+        // Price simulation if missing
+        let price = 199;
+        // Try to guess price based on ID as per main.js logic (Simulated Pricing)
+        const prices = { 1: 149, 2: 119, 3: 179, 4: 119, 5: 219, 6: 199, 7: 249 };
+        if (prices[product.id]) price = prices[product.id];
+
+        cart.push({ ...product, qty: 1, price: price });
+    }
+
+    saveCart();
+    // Open cart to show feedback
+    const sidebar = document.getElementById('cart-sidebar');
+    if (sidebar && !sidebar.classList.contains('active')) {
+        toggleCart();
+    }
+}
+
+function removeFromCart(id) {
+    cart = cart.filter(item => item.id !== id);
+    saveCart();
+}
+
+function updateQty(id, change) {
+    const item = cart.find(item => item.id === id);
+    if (item) {
+        item.qty += change;
+        if (item.qty < 1) {
+            removeFromCart(id);
+        } else {
+            saveCart();
+        }
+    }
+}
+
+function saveCart() {
+    localStorage.setItem('cart', JSON.stringify(cart));
+    updateCartUI();
+}
+
+function updateCartUI() {
+    // Update Badge
+    const badge = document.getElementById('cart-badge-count');
+    if (badge) {
+        const count = cart.reduce((acc, item) => acc + item.qty, 0);
+        badge.textContent = count;
+        badge.style.display = count > 0 ? 'flex' : 'none';
+    }
+
+    // Update Sidebar
+    const container = document.getElementById('cart-items-container');
+    const totalEl = document.getElementById('cart-total-price');
+
+    if (container && totalEl) {
+        if (cart.length === 0) {
+            container.innerHTML = `
+                <div class="empty-cart-msg">
+                    <i class="fas fa-shopping-basket" style="font-size: 3rem;"></i>
+                    <p>السلة فارغة</p>
+                    <button class="btn btn-secondary" onclick="toggleCart()">تصفح المنتجات</button>
+                </div>
+            `;
+            totalEl.textContent = '0 د.م.';
+        } else {
+            let total = 0;
+            container.innerHTML = cart.map(item => {
+                total += item.price * item.qty;
+                return `
+                    <div class="cart-item">
+                        <img src="${item.image}" alt="${item.name}">
+                        <div class="cart-item-details">
+                            <span class="cart-item-title">${item.name}</span>
+                            <span class="cart-item-price">${item.price} د.م.</span>
+                            <div class="cart-item-controls">
+                                <button class="qty-btn" onclick="updateQty(${item.id}, -1)">-</button>
+                                <span class="qty-val">${item.qty}</span>
+                                <button class="qty-btn" onclick="updateQty(${item.id}, 1)">+</button>
+                            </div>
+                        </div>
+                        <button class="remove-item" onclick="removeFromCart(${item.id})">
+                            <i class="fas fa-trash-alt"></i>
+                        </button>
+                    </div>
+                `;
+            }).join('');
+
+            totalEl.textContent = total + ' د.م.';
+        }
+    }
+}
+
+function checkout() {
+    if (cart.length === 0) return;
+
+    let message = "مرحباً، أرغب في طلب المنتجات التالية:\n\n";
+    let total = 0;
+
+    cart.forEach(item => {
+        const subtotal = item.price * item.qty;
+        total += subtotal;
+        message += `▪️ *${item.name}* (x${item.qty}) - ${subtotal} د.م.\n`;
+    });
+
+    message += `\n💰 *المجموع:* ${total} د.م.\n\nيرجى تأكيد الطلب.`;
+
+    const whatsappUrl = `https://wa.me/212604889578?text=${encodeURIComponent(message)}`;
+    window.open(whatsappUrl, '_blank');
+}
+
+// Initial Call
+updateCartUI();

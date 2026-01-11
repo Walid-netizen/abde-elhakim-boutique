@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>متجر الاحتراف - الرئيسية</title>
+    <link rel="icon" href="assets/images/logo.jpeg" type="image/jpeg">
     <meta name="description"
         content="متجر إلكتروني عصري يقدم أفضل المنتجات بجودة عالية وأسعار منافسة. تصفح أحدث التشكيلات الآن.">
     <!-- Fonts -->
@@ -37,6 +38,14 @@
                     <li><a href="products.html">المنتجات</a></li>
                     <li><a href="about.html">من نحن</a></li>
                     <li><a href="contact.html">اتصل بنا</a></li>
+                    <li>
+                        <div class="cart-btn-wrap" onclick="toggleCart()">
+                            <a href="javascript:void(0)" style="display: flex; align-items: center; gap: 5px;">
+                                <i class="fas fa-shopping-cart"></i> السلة
+                            </a>
+                            <div class="cart-badge" id="cart-badge-count">0</div>
+                        </div>
+                    </li>
                 </ul>
                 <div class="mobile-menu-btn">
                     <i class="fas fa-bars"></i>
@@ -140,6 +149,27 @@
             </div>
         </div>
     </footer>
+
+    <!-- Shopping Cart Sidebar -->
+    <div class="cart-overlay" id="cart-overlay" onclick="toggleCart()"></div>
+    <div class="cart-sidebar" id="cart-sidebar">
+        <div class="cart-header">
+            <h3>سلة المشتريات</h3>
+            <span class="close-cart" onclick="toggleCart()"><i class="fas fa-times"></i></span>
+        </div>
+        <div class="cart-items" id="cart-items-container">
+            <!-- Items will be injected here -->
+        </div>
+        <div class="cart-footer">
+            <div class="cart-total">
+                <span>المجموع:</span>
+                <span id="cart-total-price">0 د.م.</span>
+            </div>
+            <button class="btn checkout-btn" onclick="checkout()">
+                <i class="fab fa-whatsapp"></i> إتمام الطلب عبر واتساب
+            </button>
+        </div>
+    </div>
 
     <!-- JS -->
     <script src="assets/js/main.js"></script>

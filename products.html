@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>متجر الاحتراف - المنتجات</title>
+    <link rel="icon" href="assets/images/logo.jpeg" type="image/jpeg">
     <meta name="description" content="تصفح جميع منتجاتنا المميزة. إلكترونيات، أزياء، عطور والمزيد.">
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -123,6 +124,14 @@
                     <li><a href="products.html" class="active">المنتجات</a></li>
                     <li><a href="about.html">من نحن</a></li>
                     <li><a href="contact.html">اتصل بنا</a></li>
+                    <li>
+                        <div class="cart-btn-wrap" onclick="toggleCart()">
+                            <a href="javascript:void(0)" style="display: flex; align-items: center; gap: 5px;">
+                                <i class="fas fa-shopping-cart"></i> السلة
+                            </a>
+                            <div class="cart-badge" id="cart-badge-count">0</div>
+                        </div>
+                    </li>
                 </ul>
                 <div class="mobile-menu-btn">
                     <i class="fas fa-bars"></i>
@@ -133,7 +142,7 @@
 
     <!-- Page Header -->
     <section class="page-header"
-        style="position: relative; background: url('https://images.unsplash.com/photo-1567401893414-76b7b1e5a7a5?ixlib=rb-4.0.3&auto=format&fit=crop&w=1950&q=80') center/cover no-repeat; padding: 120px 0; text-align: center; color: #fff;">
+        style="position: relative; background: url('assets/images/hero_masterpiece.png') center/cover no-repeat; padding: 120px 0; text-align: center; color: #fff;">
         <div
             style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(135deg, rgba(26, 42, 58, 0.5) 0%, rgba(26, 42, 58, 0.3) 100%); z-index: 0;">
         </div>
@@ -218,6 +227,27 @@
             </div>
         </div>
     </footer>
+
+    <!-- Shopping Cart Sidebar -->
+    <div class="cart-overlay" id="cart-overlay" onclick="toggleCart()"></div>
+    <div class="cart-sidebar" id="cart-sidebar">
+        <div class="cart-header">
+            <h3>سلة المشتريات</h3>
+            <span class="close-cart" onclick="toggleCart()"><i class="fas fa-times"></i></span>
+        </div>
+        <div class="cart-items" id="cart-items-container">
+            <!-- Items will be injected here -->
+        </div>
+        <div class="cart-footer">
+            <div class="cart-total">
+                <span>المجموع:</span>
+                <span id="cart-total-price">0 د.م.</span>
+            </div>
+            <button class="btn checkout-btn" onclick="checkout()">
+                <i class="fab fa-whatsapp"></i> إتمام الطلب عبر واتساب
+            </button>
+        </div>
+    </div>
 
     <!-- JS -->
     <script src="assets/js/main.js"></script>
