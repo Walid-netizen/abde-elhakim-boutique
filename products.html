@@ -12,96 +12,10 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
     <!-- CSS -->
+    <!-- CSS -->
     <link rel="stylesheet" href="assets/css/style.css">
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
-    <style>
-        /* Specific Styles for Products Search */
-        .products-filter-section {
-            background-color: var(--white);
-            padding: 30px 0;
-            margin-bottom: 40px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
-        }
-
-        .search-container {
-            display: flex;
-            justify-content: center;
-            margin-bottom: 25px;
-        }
-
-        .search-box-wrapper {
-            position: relative;
-            width: 100%;
-            max-width: 600px;
-        }
-
-        .search-box-wrapper input {
-            width: 100%;
-            padding: 15px 50px 15px 20px;
-            border: 2px solid #eee;
-            border-radius: 50px;
-            font-size: 1rem;
-            font-family: inherit;
-            transition: all 0.3s ease;
-            outline: none;
-        }
-
-        .search-box-wrapper input:focus {
-            border-color: var(--accent-color);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-        }
-
-        .search-box-wrapper button {
-            position: absolute;
-            right: 10px;
-            top: 50%;
-            transform: translateY(-50%);
-            background: var(--primary-color);
-            color: #fff;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            border: none;
-            cursor: pointer;
-            transition: 0.3s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .search-box-wrapper button:hover {
-            background: var(--accent-color);
-        }
-
-        .categories-wrapper {
-            display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
-            gap: 10px;
-        }
-
-        .filter-btn {
-            background: transparent;
-            border: 1px solid #ddd;
-            padding: 8px 20px;
-            border-radius: 20px;
-            cursor: pointer;
-            transition: 0.3s;
-            font-family: inherit;
-            font-weight: 500;
-            color: var(--text-color);
-        }
-
-        .filter-btn:hover,
-        .filter-btn.active {
-            background: var(--primary-color);
-            color: #fff;
-            border-color: var(--primary-color);
-            transform: translateY(-2px);
-        }
-    </style>
 </head>
 
 <body>
@@ -140,19 +54,11 @@
         </div>
     </header>
 
-    <!-- Page Header -->
-    <section class="page-header"
-        style="position: relative; background: url('assets/images/hero_masterpiece.png') center/cover no-repeat; padding: 120px 0; text-align: center; color: #fff;">
-        <div
-            style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(135deg, rgba(26, 42, 58, 0.5) 0%, rgba(26, 42, 58, 0.3) 100%); z-index: 0;">
-        </div>
-        <div class="container" style="position: relative; z-index: 1;">
-            <h1
-                style="font-size: 3.5rem; margin-bottom: 20px; color: #fff; font-weight: 800; letter-spacing: -1px; text-shadow: 0 4px 15px rgba(0,0,0,0.3);">
-                جميع المنتجات</h1>
-            <p
-                style="opacity: 1; font-size: 1.3rem; max-width: 600px; margin: 0 auto; line-height: 1.6; text-shadow: 0 2px 10px rgba(0,0,0,0.3); font-weight: 500;">
-                تصفح مجموعتنا الحصرية من المنتجات المختارة بعناية لتناسب ذوقك الرفيع</p>
+    <!-- Simple Text Header -->
+    <section class="simple-header">
+        <div class="container">
+            <h1>جميع المنتجات</h1>
+            <p>تصفح مجموعتنا الحصرية من المنتجات المختارة بعناية لتناسب ذوقك الرفيع</p>
         </div>
     </section>
 
@@ -166,17 +72,7 @@
                 </div>
             </div>
 
-            <div class="categories-wrapper">
-                <button class="filter-btn active" data-category="all">الكل</button>
-                <button class="filter-btn" data-category="مطبخ">مطبخ</button>
-                <button class="filter-btn" data-category="إلكترونيات">إلكترونيات</button>
-                <button class="filter-btn" data-category="عطور">عطور</button>
-                <button class="filter-btn" data-category="إكسسوارات">إكسسوارات</button>
-                <button class="filter-btn" data-category="حقائب">حقائب</button>
-                <button class="filter-btn" data-category="صحة">صحة</button>
-                <button class="filter-btn" data-category="عناية">عناية</button>
-                <button class="filter-btn" data-category="تجميل">تجميل</button>
-            </div>
+            <!-- Categories Removed as per request -->
         </div>
     </section>
 

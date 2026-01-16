@@ -185,20 +185,16 @@ function renderProducts(products) {
 
 function createProductCard(product) {
     const safeProduct = JSON.stringify(product).replace(/'/g, "&apos;").replace(/"/g, "&quot;");
+    // Standard Card: Image on top, Fixed Button below
     return `
-        <div class="product-card">
+        <div class="product-card" onclick="window.location.href='product-details.html?id=${product.id}'">
             <div class="product-image">
                 <img src="${product.image}" alt="${product.name}" loading="lazy">
             </div>
-            <div class="product-details">
-                <div class="product-category">${product.category}</div>
-                <h3 class="product-title">${product.name}</h3>
-                <div class="product-actions" style="justify-content: space-between; align-items: center; width: 100%;">
-                    <button class="btn" onclick='addToCart(${safeProduct})' style="padding: 5px 15px; font-size: 0.8rem;">
-                        <i class="fas fa-cart-plus"></i> أضف
-                    </button>
-                    <a href="product-details.html?id=${product.id}" class="details-link" style="font-size: 0.85rem;">التفاصيل <i class="fas fa-arrow-left"></i></a>
-                </div>
+            <div class="product-actions-fixed">
+                <button class="btn-fixed-cart" onclick='event.stopPropagation(); addToCart(${safeProduct})'>
+                    <i class="fas fa-cart-plus"></i> أضف للسلة
+                </button>
             </div>
         </div>
     `;
@@ -207,12 +203,6 @@ function createProductCard(product) {
 function filterProducts(searchTerm) {
     const term = searchTerm.toLowerCase().trim();
 
-    // Reset category buttons visual state to 'All' if we are searching globally
-    // Or we can keep it within the active category. For simplicity, let's search ALL products.
-    // If you want to search ONLY within current category, we'd need to track currentCategory state.
-    // Standard UX for this type of store: Search bar searches everything.
-
-    // Let's visual update category to All
     document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
     const allBtn = document.querySelector('.filter-btn[data-category="all"]');
     if (allBtn) allBtn.classList.add('active');
@@ -265,14 +255,6 @@ async function loadProductDetails() {
             return;
         }
 
-        // Simulating Price Data (Pro touch)
-        // In a real app, this would be in the JSON
-        const prices = {
-            1: 149, 2: 119, 3: 179, 4: 119, 5: 219, 6: 199, 7: 249
-        };
-        const price = prices[id] || 199;
-        const oldPrice = Math.floor(price * 1.3); // Fake discount
-
         // Update Page Title
         document.title = `متجر الاحتراف - ${product.name}`;
 
@@ -285,24 +267,21 @@ async function loadProductDetails() {
         if (container) {
             container.innerHTML = `
                 <div class="pro-gallery">
-                    <div class="gallery-badge">جديد</div>
+                    <div class="gallery-badge">مميز</div>
                     <img src="${product.image}" alt="${product.name}" id="main-image">
                 </div>
                 <div class="pro-info">
                     <span class="category-pill">${product.category}</span>
                     <h1 class="pro-title">${product.name}</h1>
-                    <!-- Price Hidden as per request -->
-                    <!-- <div class="pro-price">...</div> -->
+                    <!-- Price Hidden Completely -->
+                    
                     <p class="pro-desc">${product.short_description}</p>
                     
                     <div class="action-area" style="flex-direction: column;">
-                        <!-- Order Button Toggler -->
+                         <!-- Buttons -->
                          <div style="display: flex; gap: 10px; margin-bottom: 20px;">
-                            <button onclick='addToCart(${JSON.stringify(product).replace(/'/g, "&apos;").replace(/"/g, "&quot;")})' class="btn" style="flex: 1;">
-                                <i class="fas fa-cart-plus"></i> أضف للسلة
-                            </button>
                             <button onclick="document.getElementById('order-form-container').style.display = 'block'; this.style.display='none'" class="whatsapp-btn" style="flex: 1;">
-                                <i class="fas fa-bolt"></i> طلب سريع
+                                <i class="fas fa-shopping-bag"></i> اطلب الآن
                             </button>
                          </div>
 
@@ -359,8 +338,8 @@ function loadRelatedProducts(allProducts, currentProduct) {
         related = [...related, ...others];
     }
 
-    // Take top 3
-    const toShow = related.slice(0, 3);
+    // Take top 4
+    const toShow = related.slice(0, 4);
 
     if (toShow.length === 0) {
         document.querySelector('.related-section').style.display = 'none';
